@@ -14,7 +14,7 @@ Si le unes las *GitHub Actions*, te encuentras con una bonita página de inicio 
 
 ## README de usuario
 
-En agosto de 2020, mi *TL* de *Twitter* se inundó con ejemplos del nuevo *README.md* que, creado en un **repo público** con tu nombre de usuario, servía como perfil personalizado para tu cuenta de *GitHub*.
+En agosto de 2020, mi *TL* de *Twitter* se inundó con ejemplos del nuevo `README.md` que, creado en un **repo público** con tu nombre de usuario, servía como perfil personalizado para tu cuenta de *GitHub*.
 
 Para crear este repo (si aún no lo tienes) basta con que entres en [GitHub.com/New](https://github.com/new) o en el acortado [GitHub.New](https://github.new) y rellenar el nombre de repo con tu nombre de usuario.
 
@@ -24,7 +24,7 @@ Si te fijas en la imagen de abajo, verás que te aparece un mensaje bastante maj
 
 ![Creando nuestro repo de usuario](https://github.com/borjalofe/til/raw/master/images/creating-special-github-user-repo.png)
 
-El archivo *README.md* se inicializa con una pequeña lista de ítems sugeridos... pero aún no he visto que nadie lo haya usado tal cual.
+El archivo `README.md` se inicializa con una pequeña lista de ítems sugeridos... pero aún no he visto que nadie lo haya usado tal cual.
 
 ```markdown
 **borjalofe/borjalofe** is a ✨ _special_ ✨ repository because its `README.md` (this file) appears on your GitHub profile.
@@ -60,8 +60,54 @@ Al final, me decidí por los siguientes:
 1. [*Blog Post Workflow* de *Gautam Krishna R*](https://github.com/gautamkrishnar/blog-post-workflow)
 <!-- 1. [*GitHub Activity in Readme* de *James George*](https://github.com/jamesgeorge007/github-activity-readme) -->
 
-Por el momento, aún no he creado una *GitHub Action* propia para actualizar mi *README.md*, aunque tengo varias ideas en mente y no tardaré mucho en publicar algún artículo al respecto.
+Por el momento, aún no he creado una *GitHub Action* propia para actualizar mi `README.md`, aunque tengo varias ideas en mente y no tardaré mucho en publicar algún artículo al respecto.
 
-| Fecha de última actualización |
-| :---------------------------: |
-| 17 de agosto de 2020 |
+### Mostrar los artículos de un blog
+
+Un buen perfil debería (*EMHO*) mostrar una vista de pájaro de tu estado actual.
+
+Por eso, he querido mostrar los últimos artículos de mi blog como desarrollador.
+
+Para ello, solo necesitamos:
+
+1. Crear la carpeta `.github`
+1. Crear la carpeta `workflows` dentro de la anterior
+1. Crear el archivo de configuración en *YaML* (en mi caso, lo he llamado con el original nombre `update_readme.yml`)
+1. Copiar el siguiente código
+
+```markdown
+name: Update README
+
+on:
+  schedule:
+    - cron: '*/30 * * * *'
+  workflow_dispatch:
+
+jobs:
+  update-readme-with-posts-from-community-blog:
+    name: Update this repo's README with latest blog posts on borjalofe.com
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: gautamkrishnar/blog-post-workflow@master
+        with:
+          feed_list: "https://borjalofe.com"
+```
+
+Básicamente, estoy diciendo que la *GitHub Action*:
+
+- Se llama *"Update README"*
+- Debe ejecutarse cada media hora (`cron: '*/30 * * * *'`) y bajo demanda (`workflow_dispatch:`).
+- Usa dos acciones de otros usuarios:
+  1. `Checkout` de *actions* (que permite acceder al `README.md` que queremos actualizar)
+  1. `Blog Post Workflow` de *Gautam Krishna R* (que lee los X últimos artículos del *RSS* de tu blog para publicarlos en el `README.md` como enlaces a los mismos, usando el título como texto de enlace)
+
+En la imagen de abajo, te enseño dónde aparece el botón para ejecutar la *GitHub Action* bajo demanda desde la sección *Actions*.
+
+![Botón para ejecutar bajo demanda la acción de actualización](https://github.com/borjalofe/til/raw/master/images/execute-update-user-readme-action.png)
+
+Puedes descubrir otras maneras de configurar esta acción en el [repo de la misma](https://github.com/gautamkrishnar/blog-post-workflow).
+
+| Creado el | Actualizado el |
+| :-------: | :------------: |
+| 17 de agosto de 2020 | 17 de agosto de 2020 |
