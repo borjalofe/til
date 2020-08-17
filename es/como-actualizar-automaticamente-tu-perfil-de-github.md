@@ -22,7 +22,7 @@ Para crear este repo (si aún no lo tienes) basta con que entres en [GitHub.com/
 
 Si te fijas en la imagen de abajo, verás que te aparece un mensaje bastante majo del equipo de GitHub.
 
-![Creando nuestro repo de usuario]()
+![Creando nuestro repo de usuario](https://github.com/borjalofe/til/raw/master/images/creating-special-github-user-repo.png)
 
 El archivo *README.md* se inicializa con una pequeña lista de ítems sugeridos... pero aún no he visto que nadie lo haya usado tal cual.
 
